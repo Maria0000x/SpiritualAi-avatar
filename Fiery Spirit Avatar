@@ -1,0 +1,9 @@
+{
+  "userId": "user2",
+  "spiritualAttributes": {
+    "backgroundColor": "#FFCDD2",
+    "symbol": "https://example.com/fire-symbol.png",
+    "text": "Passion",
+    "textColor": "#D32F2F"
+  }
+}
