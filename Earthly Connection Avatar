@@ -1,0 +1,9 @@
+{
+  "userId": "user3",
+  "spiritualAttributes": {
+    "backgroundColor": "#C8E6C9",
+    "symbol": "https://example.com/tree-symbol.png",
+    "text": "Growth",
+    "textColor": "#388E3C"
+  }
+}
