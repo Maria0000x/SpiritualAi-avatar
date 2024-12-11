@@ -1,0 +1,9 @@
+{
+  "userId": "user1",
+  "spiritualAttributes": {
+    "backgroundColor": "#B3E5FC",
+    "symbol": "https://example.com/peace-symbol.png",
+    "text": "Harmony",
+    "textColor": "#00796B"
+  }
+}
