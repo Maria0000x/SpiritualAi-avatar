@@ -1,0 +1,74 @@
+// Spirituality App - Avatar Creation Feature
+// This code provides the foundational structure for a feature that allows users to create avatars representing their spiritual personas.
+
+// Import necessary libraries
+import express from 'express';
+import bodyParser from 'body-parser';
+import { createCanvas, loadImage } from 'canvas';
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware
+app.use(bodyParser.json());
+
+// In-memory storage for avatars
+const avatars = {};
+
+// Endpoint to create an avatar
+app.post('/create-avatar', async (req, res) => {
+    const { userId, spiritualAttributes } = req.body;
+
+    if (!userId || !spiritualAttributes) {
+        return res.status(400).json({ error: 'Missing required fields: userId and spiritualAttributes.' });
+    }
+
+    try {
+        // Create a new canvas
+        const canvas = createCanvas(400, 400);
+        const ctx = canvas.getContext('2d');
+
+        // Background (symbolizing spirituality)
+        ctx.fillStyle = spiritualAttributes.backgroundColor || '#FFFFFF';
+        ctx.fillRect(0, 0, 400, 400);
+
+        // Draw avatar elements based on attributes
+        if (spiritualAttributes.symbol) {
+            const symbolImage = await loadImage(spiritualAttributes.symbol);
+            ctx.drawImage(symbolImage, 150, 100, 100, 100);
+        }
+
+        if (spiritualAttributes.text) {
+            ctx.fillStyle = spiritualAttributes.textColor || '#000000';
+            ctx.font = '20px Arial';
+            ctx.fillText(spiritualAttributes.text, 50, 350);
+        }
+
+        // Save avatar as a base64 string
+        const avatarData = canvas.toDataURL();
+        avatars[userId] = avatarData;
+
+        res.status(200).json({ message: 'Avatar created successfully!', avatar: avatarData });
+    } catch (error) {
+        console.error('Error creating avatar:', error);
+        res.status(500).json({ error: 'Failed to create avatar. Please try again.' });
+    }
+});
+
+// Endpoint to retrieve an avatar
+app.get('/avatar/:userId', (req, res) => {
+    const { userId } = req.params;
+
+    if (!avatars[userId]) {
+        return res.status(404).json({ error: 'Avatar not found.' });
+    }
+
+    res.status(200).json({ avatar: avatars[userId] });
+});
+
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Spirituality App server running on port ${PORT}`);
+});
+
+// Note: For production, replace in-memory storage with a proper database solution.
